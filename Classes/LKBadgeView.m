@@ -70,6 +70,8 @@
     self.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
     self.font = [UIFont boldSystemFontOfSize:LK_BADGE_VIEW_FONT_SIZE];
     self.textOffset = CGSizeMake(0.0, 0.0);
+    
+    self.radius = LK_BADGE_VIEW_STANDARD_HEIGHT / 2;
 }
 
 - (void)_setupDefaultWithoutOutline
@@ -207,7 +209,7 @@
     UIBezierPath* outlinePath = [UIBezierPath bezierPath];
     
     CGSize size = badgeFrame_.size;
-    CGFloat unit = size.height/2.0;
+    CGFloat unit = self.radius;
 
     CGPoint bp = badgeFrame_.origin;
     
@@ -216,16 +218,31 @@
     c1.y +=unit;
     [outlinePath addArcWithCenter:c1
                            radius:unit
-                       startAngle:3*M_PI/2 endAngle:M_PI/2
+                       startAngle:3*M_PI/2 endAngle:M_PI
+                        clockwise:NO];
+    
+    [outlinePath addLineToPoint:CGPointMake(bp.x, bp.y + size.height - unit)];
+    
+    c1.y = bp.y + size.height - unit;
+    [outlinePath addArcWithCenter:c1
+                           radius:unit
+                       startAngle:M_PI endAngle:M_PI/2
                         clockwise:NO];
     
     [outlinePath addLineToPoint:CGPointMake(bp.x + size.width - unit,
                                             bp.y + size.height)];
 
-    CGPoint c2 = CGPointMake(bp.x + size.width - unit, bp.y + unit);
+    CGPoint c2 = CGPointMake(bp.x + size.width - unit, bp.y + size.height - unit);
     [outlinePath addArcWithCenter:c2
                            radius:unit
-                       startAngle:M_PI/2 endAngle:-M_PI/2
+                       startAngle:M_PI/2 endAngle:0
+                        clockwise:NO];
+    
+    [outlinePath addLineToPoint:CGPointMake(bp.x + size.width, bp.y + unit)];
+    c2.y = bp.y + unit;
+    [outlinePath addArcWithCenter:c2
+                           radius:unit
+                       startAngle:0 endAngle:-M_PI/2
                         clockwise:NO];
     
     [outlinePath addLineToPoint:CGPointMake(bp.x + unit, bp.y)];

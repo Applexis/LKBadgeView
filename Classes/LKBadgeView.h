@@ -68,6 +68,7 @@ typedef enum {
 @property (nonatomic, assign) BOOL shadowOfOutline;
 @property (nonatomic, assign) BOOL shadowOfText;
 @property (nonatomic, assign) CGSize textOffset;
+@property (nonatomic, assign) CGFloat radius;
 
 + (CGFloat)badgeHeight; // @depricated
 - (CGFloat)badgeHeight;
